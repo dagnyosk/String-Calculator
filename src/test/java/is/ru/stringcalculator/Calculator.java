@@ -20,12 +20,23 @@ public class Calculator{
 	
 	private static int sum(String [] numbers){
 		int total = 0;
+		String negNumbers = "";
 			for(String number : numbers){
-				if (toInt(number) < 1000) {
-					total += toInt(number);
+				int i = toInt(number);
+				if (i < 0){
+					negNumbers += number + ",";
+				}
+				else {
+					if ( i < 1000) {
+						total += i;
+					}
 				}
 			}
-			return total;
+			if (negNumbers.isEmpty()) 
+				return total;
+			else {
+				throw new IllegalArgumentException ("Negatives not allowed: " + negNumbers.substring(0, negNumbers.length() -1));
+			}
 	}
 	
 }

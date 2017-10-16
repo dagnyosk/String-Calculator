@@ -2,6 +2,8 @@ package is.ru.stringcalculator;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.Rule;
 
 public class CalculatorTest{
 	@Test
@@ -31,8 +33,12 @@ public class CalculatorTest{
 	public void testNumbersBigger(){
 		assertEquals(2, Calculator.add("1001,2"));
 	}
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 	@Test
 	public void testThrowExceptionsNegativeMultiple(){
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Negatives not allowed: -4,-5");
 		Calculator.add("2,-4,3,-5");
 	}
 
