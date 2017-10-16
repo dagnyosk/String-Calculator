@@ -118,16 +118,31 @@ else{
 
 Throw exceptions when negative
 CalculatorTest.java
-@Test
-public void testThrowExceptionsNegative(){
-	Calculator.add("-1,2");
-}
-
+@Rule
+public ExpectedException thrown = ExpectedException.none();
 @Test
 public void testThrowExceptionsNegativeMultiple(){
+	thrown.expect(IllegalArgumentException.class);
+	thrown.expectMessage("Negatives not allowed: -4,-5");
 	Calculator.add("2,-4,3,-5");
 }
+
 Calculator.java
+private static int sum(String [] numbers){
+	int total = 0;
+	String negNumbers = "";
+		for(String number : numbers){
+			int i = toInt(number);
+			if (i < 0)
+				negNumbers += number + ",";
+		}
+		if (negNumbers.isEmpty()) 
+			return total;
+		else {
+			throw new IllegalArgumentException ("Negatives not allowed: " + negNumbers.substring(0, negNumbers.length() -1));
+		}
+}
+
 
 Numbers bigger than 1000
 CalculatorTest.java
